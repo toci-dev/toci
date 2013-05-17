@@ -11,6 +11,14 @@ get_get_repo(){
     cp -r $CACHDIR $TOCI_WORKING_DIR/${1/\//_}
 }
 
+apply_patches(){
+    cd $TOCI_WORKING_DIR/${1/\//_}
+    for PATCH in $TOCI_SOURCE_DIR/patches/${1/*\//}* ; do
+        test -f $PATCH || continue
+        git am $PATCH
+    done
+}
+
 ssh_noprompt(){
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $@
 }
